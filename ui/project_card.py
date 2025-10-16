@@ -15,13 +15,20 @@ def get_priority_color(priority: str) -> str:
     return colors.get(priority, "#FFFFFF")
 
 
-def display_match_card(match: ProjectMatch, index: int):
-    """Display a match as a card with detailed information"""
+def display_match_card(match: ProjectMatch, index: int, show_cluster_matches: bool = False):
+    """Display a match as a card with detailed information
+    
+    Args:
+        match: ProjectMatch object
+        index: Display index
+        show_cluster_matches: Whether to show cluster match section
+    """
     priority_color = get_priority_color(match.priority_level)
     info = extract_project_info(match)
     
     with st.expander(
-        f"#{index} - {info['title'] or match.get_project_title()} - Score: {match.score} ({match.priority_level})",
+        f"#{index} - {info['title'] or match.get_project_title()} - "
+        f"Score: {match.score} ({match.priority_level})",
         expanded=False
     ):
         # Header with colored background
@@ -41,6 +48,12 @@ def display_match_card(match: ProjectMatch, index: int):
         
         # Additional details
         _display_additional_details(info)
+        
+        # Cluster matches section (if enabled)
+        if show_cluster_matches:
+            st.divider()
+            # Placeholder for cluster matches - will be filled by app.py
+            st.session_state[f'cluster_match_placeholder_{index}'] = True
         
         # Raw data viewer
         with st.expander("🔧 View Raw Data"):
@@ -110,7 +123,7 @@ def _display_technology_matching(match: ProjectMatch):
 
 def _display_additional_details(info: dict):
     """Display additional project details"""
-    if info['description'] or info['scope'] or info['expected_outcomes'] or info['topics']:
+    if any([info['description'], info['scope'], info['expected_outcomes'], info['topics']]):
         st.divider()
         st.subheader("📝 Additional Details")
         

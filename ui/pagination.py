@@ -15,12 +15,12 @@ def display_pagination(total_items: int, items_per_page: int) -> int:
     col1, col2, col3, col4, col5 = st.columns([1, 1, 2, 1, 1])
     
     with col1:
-        if st.button("⏮️ First", disabled=(st.session_state.current_page == 1)):
+        if st.button("First", disabled=(st.session_state.current_page == 1)):
             st.session_state.current_page = 1
             st.rerun()
     
     with col2:
-        if st.button("◀️ Prev", disabled=(st.session_state.current_page == 1)):
+        if st.button(" Prev", disabled=(st.session_state.current_page == 1)):
             st.session_state.current_page -= 1
             st.rerun()
     
@@ -28,12 +28,12 @@ def display_pagination(total_items: int, items_per_page: int) -> int:
         st.write(f"Page {st.session_state.current_page} of {total_pages} ({total_items} total items)")
     
     with col4:
-        if st.button("Next ▶️", disabled=(st.session_state.current_page == total_pages)):
+        if st.button("Next ", disabled=(st.session_state.current_page == total_pages)):
             st.session_state.current_page += 1
             st.rerun()
     
     with col5:
-        if st.button("Last ⏭️", disabled=(st.session_state.current_page == total_pages)):
+        if st.button("Last", disabled=(st.session_state.current_page == total_pages)):
             st.session_state.current_page = total_pages
             st.rerun()
     
